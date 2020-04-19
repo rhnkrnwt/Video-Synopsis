@@ -30,8 +30,9 @@ for file in tqdm(os.listdir(folder)):
 	image[:,:,2] = np.array(bl).reshape((H,W))
 	image = image.astype(np.uint8)
 	images.append(image)
+	
 
-out = open(folder+'_parsed.pkl', 'wb')
+out = open(folder[:-1]+'_parsed.pkl', 'wb')
 pk.dump(images, out)
 out.close()
 
