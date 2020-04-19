@@ -4,36 +4,39 @@ import os
 import sys
 import numpy as np
 import pickle as pk
+from tqdm import tqdm
+from math import floor
 from PIL import Image as IM
 
-
+W, H = 352, 288
 folder = sys.argv[1]
 images = []
-for file in os.listdir(folder):
-	image = np.zeros((352,288,3), dtype=np.uint8)
-	bnum = 0
-	with open(folder+file, 'rb') as f:
-		byte = int.from_bytes(f.read(1), "big")
-		pnum,r,c = 0,0,0
-		while r < 352:
-			image[r,c,2] = byte
-			byte = int.from_bytes(f.read(1), "big")
-			image[r,c,1] = byte
-			byte = int.from_bytes(f.read(1), "big")
-			image[r,c,0] = byte
-			byte = int.from_bytes(f.read(1), "big")
-			pnum+=1
-			c+=1
-			if pnum==288:
-				pnum = 0
-				r += 1
-				c = 0
 
-
+for file in tqdm(os.listdir(folder)):
+	with open('data/video_1/image-0003.rgb', 'rb') as f:
+		byte = f.read()
+	bl,gr,re = [],[],[]
+	image = np.zeros((H,W,3))
+	for i, b in enumerate(byte):
+		if i<W*H:
+			re.append(b)
+		elif i>=W*H and i<W*H*2:
+			gr.append(b)
+		else:
+			bl.append(b)
+		pass
+	image[:,:,0] = np.array(re).reshape((H,W))
+	image[:,:,1] = np.array(gr).reshape((H,W))
+	image[:,:,2] = np.array(bl).reshape((H,W))
+	image = image.astype(np.uint8)
 	images.append(image)
-	break
 
-img = IM.fromarray(images[-1], 'RGB')
-img.show()
+out = open(folder+'_parsed.pkl', 'wb')
+pk.dump(images, out)
+out.close()
+
+print("Done!")
+
+
 	
 
