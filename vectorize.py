@@ -14,7 +14,7 @@ loffolder = ['data/video_1/', 'data/video_2/','data/video_3/', 'data/video_4/']
 for folder in loffolder:
 	print("Parsing", folder)
 	images = []
-	for file in tqdm(os.listdir(folder)):
+	for file in tqdm(sorted(os.listdir(folder))):
 		with open(folder+file, 'rb') as f:
 			byte = f.read()
 		bl,gr,re = [],[],[]
@@ -34,9 +34,9 @@ for folder in loffolder:
 		images.append(image)
 	
 
-	out = open(folder[:-1]+'_parsed.pkl', 'wb')
-	pk.dump(images, out)
-	out.close()
+	#out = open(folder[:-1]+'_parsed.pkl', 'wb')
+	#pk.dump(images, out)
+	#out.close()
 
 print("Done!")
 
