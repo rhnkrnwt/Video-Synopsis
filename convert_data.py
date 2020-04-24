@@ -31,12 +31,6 @@ def convert_all_images(img_directory, pickled_directory):
         if not os.path.exists(pickled_image):
             convert_rgb_numpy(img, pickled_image)
 
-def read_pickled_image(pickled_image):
-    with open(pickled_image, "rb") as img_p:
-        img_data = pickle.load(img_p)
-        return img_data        
-
-
 
 img_directory = "/Users/Sai/Desktop/VideoSynopsis/CSCI576ProjectMedia/Image/RGB/"
 pickled_directory = "/Users/Sai/Desktop/VideoSynopsis/CSCI576ProjectMedia/Image/RGB_Pickled/"
