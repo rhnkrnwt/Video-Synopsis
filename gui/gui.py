@@ -8,16 +8,16 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from PyQt5.QtCore import Qt
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
+        MainWindow.setObjectName("Multimedia Synopsis Tool")
+        MainWindow.resize(1000, 700)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(200, 450, 341, 80))
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(590, 470, 341, 80))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -31,13 +31,27 @@ class Ui_MainWindow(object):
         self.playButton = QtWidgets.QPushButton(self.horizontalLayoutWidget)
         self.playButton.setObjectName("playButton")
         self.horizontalLayout.addWidget(self.playButton)
+        self.mainLabel = QtWidgets.QLabel(self.centralwidget)
+        self.mainLabel.setGeometry(QtCore.QRect(410, 0, 190, 78))
+        self.mainLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.mainLabel.setObjectName("mainLabel")
+        self.playerWidget = QtWidgets.QWidget(self.centralwidget)
+        self.playerWidget.setGeometry(QtCore.QRect(570, 110, 371, 301))
+        self.playerWidget.setObjectName("playerWidget")
+        self.synopsisWidget = QtWidgets.QWidget(self.centralwidget)
+        self.synopsisWidget.setGeometry(QtCore.QRect(60, 109, 471, 441))
+        self.synopsisWidget.setObjectName("synopsisWidget")
         self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(220, 140, 211, 111))
+        self.label.setGeometry(QtCore.QRect(230, 80, 151, 20))
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
+        self.label_2 = QtWidgets.QLabel(self.centralwidget)
+        self.label_2.setGeometry(QtCore.QRect(670, 80, 181, 20))
+        self.label_2.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_2.setObjectName("label_2")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1000, 22))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -47,10 +61,8 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        # actions
-        self.playButton.clicked.connect(lambda: self.playClicked())
-        self.pauseButton.clicked.connect(lambda: self.pauseClicked())
-        self.stopButton.clicked.connect(lambda: self.stopClicked())
+        self.playerWidget.setStyleSheet('background-color: black')
+        self.synopsisWidget.setStyleSheet('background-color: black')
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -58,16 +70,11 @@ class Ui_MainWindow(object):
         self.stopButton.setText(_translate("MainWindow", "Stop"))
         self.pauseButton.setText(_translate("MainWindow", "Pause"))
         self.playButton.setText(_translate("MainWindow", "Play"))
-        self.label.setText(_translate("MainWindow", "Some Random Text"))
+        self.mainLabel.setText(_translate("MainWindow", "Video and Image Synopsis Tool"))
+        self.label.setText(_translate("MainWindow", "Synopsis Image"))
+        self.label_2.setText(_translate("MainWindow", "Video/Image Display"))
 
-    def playClicked(self):
-        self.label.setText("Play was clicked")
 
-    def pauseClicked(self):
-        self.label.setText("Pause was clicked")
-    
-    def stopClicked(self):
-        self.label.setText("Stop was clicked")
 
 
 if __name__ == "__main__":
