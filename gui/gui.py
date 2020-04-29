@@ -1,57 +1,55 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'gui.ui'
+# Form implementation generated from reading ui file 'gui6.ui'
 #
-# Created by: PyQt5 UI code generator 5.14.2
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import Qt
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("Multimedia Synopsis Tool")
-        MainWindow.resize(1000, 700)
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(1020, 1000)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(590, 470, 341, 80))
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(340, 530, 343, 80))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.stopButton = QtWidgets.QPushButton(self.horizontalLayoutWidget)
-        self.stopButton.setObjectName("stopButton")
-        self.horizontalLayout.addWidget(self.stopButton)
-        self.pauseButton = QtWidgets.QPushButton(self.horizontalLayoutWidget)
-        self.pauseButton.setObjectName("pauseButton")
-        self.horizontalLayout.addWidget(self.pauseButton)
         self.playButton = QtWidgets.QPushButton(self.horizontalLayoutWidget)
         self.playButton.setObjectName("playButton")
         self.horizontalLayout.addWidget(self.playButton)
-        self.mainLabel = QtWidgets.QLabel(self.centralwidget)
-        self.mainLabel.setGeometry(QtCore.QRect(410, 0, 190, 78))
-        self.mainLabel.setAlignment(QtCore.Qt.AlignCenter)
-        self.mainLabel.setObjectName("mainLabel")
-        self.playerWidget = QtWidgets.QWidget(self.centralwidget)
-        self.playerWidget.setGeometry(QtCore.QRect(570, 110, 371, 301))
-        self.playerWidget.setObjectName("playerWidget")
-        self.synopsisWidget = QtWidgets.QWidget(self.centralwidget)
-        self.synopsisWidget.setGeometry(QtCore.QRect(60, 109, 471, 441))
-        self.synopsisWidget.setObjectName("synopsisWidget")
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(230, 80, 151, 20))
-        self.label.setAlignment(QtCore.Qt.AlignCenter)
-        self.label.setObjectName("label")
-        self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        self.label_2.setGeometry(QtCore.QRect(670, 80, 181, 20))
-        self.label_2.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_2.setObjectName("label_2")
+        self.pauseButton = QtWidgets.QPushButton(self.horizontalLayoutWidget)
+        self.pauseButton.setObjectName("pauseButton")
+        self.horizontalLayout.addWidget(self.pauseButton)
+        self.stopButton = QtWidgets.QPushButton(self.horizontalLayoutWidget)
+        self.stopButton.setObjectName("stopButton")
+        self.horizontalLayout.addWidget(self.stopButton)
+        self.titleLabel = QtWidgets.QLabel(self.centralwidget)
+        self.titleLabel.setGeometry(QtCore.QRect(410, 20, 201, 20))
+        self.titleLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.titleLabel.setObjectName("titleLabel")
+        self.synopsisLabel = QtWidgets.QLabel(self.centralwidget)
+        self.synopsisLabel.setGeometry(QtCore.QRect(120, 650, 801, 91))
+        self.synopsisLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.synopsisLabel.setObjectName("synopsisLabel")
+        self.contentLabel = QtWidgets.QLabel(self.centralwidget)
+        self.contentLabel.setGeometry(QtCore.QRect(290, 90, 441, 351))
+        self.contentLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.contentLabel.setObjectName("contentLabel")
+        self.synopsisLabel2 = QtWidgets.QLabel(self.centralwidget)
+        self.synopsisLabel2.setGeometry(QtCore.QRect(120, 770, 801, 91))
+        self.synopsisLabel2.setAlignment(QtCore.Qt.AlignCenter)
+        self.synopsisLabel2.setObjectName("synopsisLabel2")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 1000, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1020, 22))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -61,20 +59,16 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-        self.playerWidget.setStyleSheet('background-color: black')
-        self.synopsisWidget.setStyleSheet('background-color: black')
-
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.stopButton.setText(_translate("MainWindow", "Stop"))
-        self.pauseButton.setText(_translate("MainWindow", "Pause"))
         self.playButton.setText(_translate("MainWindow", "Play"))
-        self.mainLabel.setText(_translate("MainWindow", "Video and Image Synopsis Tool"))
-        self.label.setText(_translate("MainWindow", "Synopsis Image"))
-        self.label_2.setText(_translate("MainWindow", "Video/Image Display"))
-
-
+        self.pauseButton.setText(_translate("MainWindow", "Pause"))
+        self.stopButton.setText(_translate("MainWindow", "Stop"))
+        self.titleLabel.setText(_translate("MainWindow", "Video Image and Synopsis Tool"))
+        self.synopsisLabel.setText(_translate("MainWindow", "Synopsis"))
+        self.contentLabel.setText(_translate("MainWindow", "Content"))
+        self.synopsisLabel2.setText(_translate("MainWindow", "Synopsis2"))
 
 
 if __name__ == "__main__":
