@@ -14,7 +14,11 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import QDir, Qt, QUrl, QSize
 from PyQt5.QtWidgets import (QApplication, QFileDialog, QHBoxLayout, QLabel, 
         QPushButton, QSizePolicy, QSlider, QStyle, QVBoxLayout, QWidget, QStatusBar)
+import pickle
 
+SYNOPSIS_FRAME_HEIGHT = 72
+SYNOPSIS_FRAME_WIDTH = 88
+SYNOPSIS_FRAMES_PER_ROW = 10
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -25,7 +29,7 @@ class Ui_MainWindow(object):
 
 
         self.videoLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.videoLayoutWidget.setGeometry(QtCore.QRect(250, 100, 500, 500))
+        self.videoLayoutWidget.setGeometry(QtCore.QRect(300, 100, 400, 400))
         self.videoLayoutWidget.setObjectName("videoLayoutWidget")
         self.videoLayout = QtWidgets.QHBoxLayout(self.videoLayoutWidget)
         self.videoLayout.setContentsMargins(0, 0, 0, 0)
@@ -33,13 +37,11 @@ class Ui_MainWindow(object):
         
         self.videoWidget = QtWidgets.QWidget(self.centralwidget)
         self.videoWidget = VideoPlayer()
-        self.videoWidget.setGeometry(QtCore.QRect(290, 90, 421, 381))
         self.videoWidget.setObjectName("videoWidget")
         self.videoLayout.addWidget(self.videoWidget)
 
-
         self.horizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(340, 530, 343, 80))
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(300, 500, 400, 80))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -54,18 +56,13 @@ class Ui_MainWindow(object):
         self.stopButton.setObjectName("stopButton")
         self.horizontalLayout.addWidget(self.stopButton)
         self.titleLabel = QtWidgets.QLabel(self.centralwidget)
-        self.titleLabel.setGeometry(QtCore.QRect(410, 20, 201, 20))
+        self.titleLabel.setGeometry(QtCore.QRect(410, 50, 201, 20))
         self.titleLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.titleLabel.setObjectName("titleLabel")
         self.synopsisLabel = QtWidgets.QLabel(self.centralwidget)
-        self.synopsisLabel.setGeometry(QtCore.QRect(120, 650, 801, 91))
+        self.synopsisLabel.setGeometry(QtCore.QRect(60, 600, 880, 144))
         self.synopsisLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.synopsisLabel.setObjectName("synopsisLabel")
-        self.synopsisLabel2 = QtWidgets.QLabel(self.centralwidget)
-        self.synopsisLabel2.setGeometry(QtCore.QRect(120, 770, 801, 91))
-        self.synopsisLabel2.setAlignment(QtCore.Qt.AlignCenter)
-        self.synopsisLabel2.setObjectName("synopsisLabel2")
-
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1020, 22))
@@ -85,6 +82,14 @@ class Ui_MainWindow(object):
         self.pauseButton.clicked.connect(self.clicked)
         self.stopButton.clicked.connect(self.clicked)
 
+        self.synopsisLabel.mousePressEvent = self.mousePressEvent
+        self.setMetaData("/Users/Sai/Desktop/VideoSynopsis/metadata.pkl")
+
+
+    def setMetaData(self, metadata_file):
+        with open(metadata_file, "rb") as metadata:
+            self.metaData = pickle.load(metadata)
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
@@ -93,18 +98,29 @@ class Ui_MainWindow(object):
         self.stopButton.setText(_translate("MainWindow", "Stop"))
         self.titleLabel.setText(_translate("MainWindow", "Video Image and Synopsis Tool"))
         self.synopsisLabel.setText(_translate("MainWindow", "Synopsis"))
-        self.synopsisLabel2.setText(_translate("MainWindow", "Synopsis2"))
 
 
     def setSynopsisBackground(self):
         self.synopsisLabel.setStyleSheet('QLabel {background-color: black}')
-        self.synopsisLabel2.setStyleSheet('QLabel {background-color: black}')
+        self.synopsisLabel.setPixmap(QPixmap("/Users/Sai/Desktop/VideoSynopsis/synopsis.png"))
 
     def clicked(self):
         print("Clicked")
         self.videoWidget.play_video("/Users/Sai/Desktop/VideoSynopsis/CSCI576ProjectMedia/video_1.avi")
 
+    def mousePressEvent(self, event):
+        print("Mouse pressed")
+        pos = event.pos()
+        x = pos.x()
+        y = pos.y()
 
+        col = x//SYNOPSIS_FRAME_WIDTH
+        row = y//SYNOPSIS_FRAME_HEIGHT
+        
+        frame_index = SYNOPSIS_FRAMES_PER_ROW*row+col
+        print(pos.x(), pos.y())
+        print(frame_index)
+        print(self.metaData[frame_index])
 
 class VideoPlayer(QWidget):
     def __init__(self):
