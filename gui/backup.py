@@ -19,6 +19,8 @@ import pickle
 SYNOPSIS_FRAME_HEIGHT = 72
 SYNOPSIS_FRAME_WIDTH = 88
 SYNOPSIS_FRAMES_PER_ROW = 10
+BASE_DIR = "/Users/Sai/Desktop/VideoSynopsis/"
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -29,7 +31,7 @@ class Ui_MainWindow(object):
 
 
         self.videoLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.videoLayoutWidget.setGeometry(QtCore.QRect(300, 100, 400, 400))
+        self.videoLayoutWidget.setGeometry(QtCore.QRect(300, 100, 352, 288))
         self.videoLayoutWidget.setObjectName("videoLayoutWidget")
         self.videoLayout = QtWidgets.QHBoxLayout(self.videoLayoutWidget)
         self.videoLayout.setContentsMargins(0, 0, 0, 0)
@@ -78,13 +80,15 @@ class Ui_MainWindow(object):
 
         self.setSynopsisBackground()
         
-        self.playButton.clicked.connect(self.clicked)
-        self.pauseButton.clicked.connect(self.clicked)
-        self.stopButton.clicked.connect(self.clicked)
+        self.playButton.clicked.connect(self.playMediaButton)
+        self.pauseButton.clicked.connect(self.pauseMediaButton)
+        self.stopButton.clicked.connect(self.stopMediaButton)
 
         self.synopsisLabel.mousePressEvent = self.mousePressEvent
         self.setMetaData("/Users/Sai/Desktop/VideoSynopsis/metadata.pkl")
 
+        self.mediaFile =  "/Users/Sai/Desktop/video_1.mp4"
+        self.mediaPosition = 0
 
     def setMetaData(self, metadata_file):
         with open(metadata_file, "rb") as metadata:
@@ -104,10 +108,6 @@ class Ui_MainWindow(object):
         self.synopsisLabel.setStyleSheet('QLabel {background-color: black}')
         self.synopsisLabel.setPixmap(QPixmap("/Users/Sai/Desktop/VideoSynopsis/synopsis.png"))
 
-    def clicked(self):
-        print("Clicked")
-        self.videoWidget.play_video("/Users/Sai/Desktop/VideoSynopsis/CSCI576ProjectMedia/video_1.avi")
-
     def mousePressEvent(self, event):
         print("Mouse pressed")
         pos = event.pos()
@@ -120,18 +120,45 @@ class Ui_MainWindow(object):
         frame_index = SYNOPSIS_FRAMES_PER_ROW*row+col
         print(pos.x(), pos.y())
         print(frame_index)
-        print(self.metaData[frame_index])
+        data = self.metaData[frame_index].split(',')
+        self.setAndPlayMediaButton(data)
+
+
+    def playMediaButton(self):
+        print("Playing", self.mediaFile)
+        self.videoWidget.mediaPlayer.play()
+
+    def setAndPlayMediaButton(self, data):
+        file = data[1]
+        mediaFile = BASE_DIR+file
+        mediaFile = mediaFile.strip()
+        position = int(float(data[2]))* 1000 # need in miliseconds
+        print(data)
+        self.mediaPosition = position
+        self.videoWidget.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(mediaFile)))
+        self.videoWidget.mediaPlayer.setPosition(position)
+        self.videoWidget.mediaPlayer.play()
+        
+
+    def pauseMediaButton(self):
+        print("Pausing", self.mediaFile)
+        self.videoWidget.mediaPlayer.pause()
+
+    def stopMediaButton(self):
+        print("Stopping", self.mediaFile)
+        self.videoWidget.mediaPlayer.stop()
+        self.videoWidget.mediaPlayer.setPosition(self.mediaPosition)
+
+
+
 
 class VideoPlayer(QWidget):
     def __init__(self):
         super().__init__()
  
  
-        p =self.palette()
-        p.setColor(QPalette.Window, Qt.black)
-        self.setPalette(p)
  
-        self.filename = "/Users/Sai/Desktop/VideoSynopsis/CSCI576ProjectMedia/video_1.avi"
+        self.filename = "/Users/Sai/Desktop/video_1.mp4"
         self.init_ui()
 
  
@@ -153,8 +180,6 @@ class VideoPlayer(QWidget):
         openBtn.clicked.connect(self.open_file)
  
  
-
- 
         #create hbox layout
         hboxLayout = QHBoxLayout()
         hboxLayout.setContentsMargins(0,0,0,0)
@@ -170,25 +195,18 @@ class VideoPlayer(QWidget):
         self.setLayout(vboxLayout)
  
         self.mediaPlayer.setVideoOutput(videowidget)
-
-
         self.mediaPlayer.stateChanged.connect(self.stateChanged)
         self.mediaPlayer.positionChanged.connect(self.positionChanged)
         self.mediaPlayer.durationChanged.connect(self.durationChanged)
 
+
     def stateChanged(self, event):
-        print("state changed")
-        print(self.mediaPlayer.position())
         return True
  
     def positionChanged(self, event):
-        print("Position changed")
-        print(self.mediaPlayer.position())
         return True
 
     def durationChanged(self, event):
-        print("Duration changed")
-        print(self.mediaPlayer.position())
         return True
 
  
