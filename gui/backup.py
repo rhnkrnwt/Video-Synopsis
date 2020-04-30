@@ -187,83 +187,23 @@ class Ui_MainWindow(object):
 class VideoPlayer(QWidget):
     def __init__(self):
         super().__init__()
- 
- 
- 
-        self.filename = "/Users/Sai/Desktop/video_1.mp4"
-        self.init_ui()
 
- 
-        self.show()
- 
- 
-    def init_ui(self):
- 
+
+        self.filename = "/Users/Sai/Desktop/video_1.mp4"
+
         #create media player object
         self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
         self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(self.filename)))
  
         #create videowidget object
  
-        videowidget = QVideoWidget()
+        self.videowidget = QVideoWidget(self)
+        self.videowidget.setGeometry(QtCore.QRect(0, 0, 352, 288))
 
-        #create open button
-        openBtn = QPushButton('Open Video')
-        openBtn.clicked.connect(self.open_file)
+        self.mediaPlayer.setVideoOutput(self.videowidget)
  
- 
-        #create hbox layout
-        hboxLayout = QHBoxLayout()
-        hboxLayout.setContentsMargins(0,0,0,0)
- 
- 
- 
-        #create vbox layout
-        vboxLayout = QVBoxLayout()
-        vboxLayout.addWidget(videowidget)
-        vboxLayout.addLayout(hboxLayout)
- 
- 
-        self.setLayout(vboxLayout)
- 
-        self.mediaPlayer.setVideoOutput(videowidget)
-        self.mediaPlayer.stateChanged.connect(self.stateChanged)
-        self.mediaPlayer.positionChanged.connect(self.positionChanged)
-        self.mediaPlayer.durationChanged.connect(self.durationChanged)
+        self.show()
 
-
-    def stateChanged(self, event):
-        return True
- 
-    def positionChanged(self, event):
-        return True
-
-    def durationChanged(self, event):
-        return True
-
- 
-    def open_file(self):
-        filename, _ = QFileDialog.getOpenFileName(self, "Open Video")
- 
-        if filename != '':
-            self.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(filename)))
-            self.playBtn.setEnabled(True)
- 
- 
-    def play_video(self, video):
-        file = QUrl.fromLocalFile(video)
-        self.mediaPlayer.setMedia(QMediaContent(file))
-        self.mediaPlayer.play()
-
- 
- 
-    def set_position(self, position):
-        self.mediaPlayer.setPosition(position)
- 
- 
-    def handle_errors(self):
-        self.playBtn.setEnabled(False)
- 
  
  
 
