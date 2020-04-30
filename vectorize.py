@@ -9,8 +9,7 @@ from math import floor
 from PIL import Image as IM
 
 W, H = 352, 288
-loffolder = ['data/video_1/', 'data/video_2/','data/video_3/', 'data/video_4/']
-
+print(loffolder)
 for folder in loffolder:
 	print("Parsing", folder)
 	images = []
@@ -34,9 +33,9 @@ for folder in loffolder:
 		images.append(image)
 	
 
-	#out = open(folder[:-1]+'_parsed.pkl', 'wb')
-	#pk.dump(images, out)
-	#out.close()
+	out = open(folder[:-1]+'_parsed.pkl', 'wb')
+	pk.dump(images, out)
+	out.close()
 
 print("Done!")
 
