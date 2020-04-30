@@ -12,8 +12,7 @@ from PyQt5.QtMultimediaWidgets import *
 from PyQt5.QtMultimedia import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import QDir, Qt, QUrl, QSize
-from PyQt5.QtWidgets import (QApplication, QFileDialog, QHBoxLayout, QLabel, 
-        QPushButton, QSizePolicy, QSlider, QStyle, QVBoxLayout, QWidget, QStatusBar)
+from PyQt5.QtWidgets import *
 import pickle
 
 SYNOPSIS_FRAME_HEIGHT = 72
@@ -25,25 +24,35 @@ BASE_DIR = "/Users/Sai/Desktop/VideoSynopsis/"
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1020, 1000)
+        MainWindow.resize(1000, 750)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
 
 
-        self.videoLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.videoLayoutWidget.setGeometry(QtCore.QRect(300, 100, 352, 288))
-        self.videoLayoutWidget.setObjectName("videoLayoutWidget")
-        self.videoLayout = QtWidgets.QHBoxLayout(self.videoLayoutWidget)
-        self.videoLayout.setContentsMargins(0, 0, 0, 0)
-        self.videoLayout.setObjectName("videoLayout")
+
+        self.widgetStack = QStackedWidget(self.centralwidget)
+        self.widgetStack.setGeometry(QtCore.QRect(325, 100, 352, 288))
+        self.widgetStack.setObjectName("widgetStack")
+
         
         self.videoWidget = QtWidgets.QWidget(self.centralwidget)
         self.videoWidget = VideoPlayer()
+        self.videoWidget.setGeometry(QtCore.QRect(325, 100, 352, 288))
         self.videoWidget.setObjectName("videoWidget")
-        self.videoLayout.addWidget(self.videoWidget)
 
+        self.imageLabel = QtWidgets.QLabel(self.centralwidget)
+        self.imageLabel.setGeometry(QtCore.QRect(325, 100, 352, 288))
+        self.imageLabel.setStyleSheet("background-color: black")
+        self.imageLabel.setObjectName("imageWidget")
+
+
+
+        self.widgetStack.addWidget(self.videoWidget)
+        self.widgetStack.addWidget(self.imageLabel)
+
+        
         self.horizontalLayoutWidget = QtWidgets.QWidget(self.centralwidget)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(300, 500, 400, 80))
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(300, 400, 400, 80))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -62,7 +71,7 @@ class Ui_MainWindow(object):
         self.titleLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.titleLabel.setObjectName("titleLabel")
         self.synopsisLabel = QtWidgets.QLabel(self.centralwidget)
-        self.synopsisLabel.setGeometry(QtCore.QRect(60, 600, 880, 144))
+        self.synopsisLabel.setGeometry(QtCore.QRect(60, 500, 880, 144))
         self.synopsisLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.synopsisLabel.setObjectName("synopsisLabel")
         MainWindow.setCentralWidget(self.centralwidget)
@@ -89,6 +98,7 @@ class Ui_MainWindow(object):
 
         self.mediaFile =  "/Users/Sai/Desktop/video_1.mp4"
         self.mediaPosition = 0
+
 
     def setMetaData(self, metadata_file):
         with open(metadata_file, "rb") as metadata:
@@ -121,11 +131,26 @@ class Ui_MainWindow(object):
         print(pos.x(), pos.y())
         print(frame_index)
         data = self.metaData[frame_index].split(',')
-        self.setAndPlayMediaButton(data)
+        if(float(data[3])==-1):
+            print("IMAGE")
+            self.setImage(data)
+        else:
+            print("VIDEO")
+            self.setAndPlayMediaButton(data)
 
+    def setImageVideo(self, index):
+        self.widgetStack.setCurrentIndex(index)
+
+    def setImage(self, data):
+        file = data[1]
+        mediaFile = BASE_DIR+file
+        self.stopMediaButton()
+        self.imageLabel.setPixmap(QPixmap(mediaFile))
+        self.setImageVideo(1)       # show the image widget
 
     def playMediaButton(self):
         print("Playing", self.mediaFile)
+        self.setImageVideo(0)
         self.videoWidget.mediaPlayer.play()
 
     def setAndPlayMediaButton(self, data):
@@ -133,21 +158,28 @@ class Ui_MainWindow(object):
         mediaFile = BASE_DIR+file
         mediaFile = mediaFile.strip()
         position = int(float(data[2]))* 1000 # need in miliseconds
+        if position > 200:
+            position -= 200
         print(data)
+        self.setImageVideo(0)
         self.mediaPosition = position
         self.videoWidget.mediaPlayer.setMedia(QMediaContent(QUrl.fromLocalFile(mediaFile)))
         self.videoWidget.mediaPlayer.setPosition(position)
         self.videoWidget.mediaPlayer.play()
+        # self.videoWidget.mediaPlayer.pause()
         
 
     def pauseMediaButton(self):
         print("Pausing", self.mediaFile)
+        self.setImageVideo(0)
         self.videoWidget.mediaPlayer.pause()
 
     def stopMediaButton(self):
         print("Stopping", self.mediaFile)
+        self.setImageVideo(0)
         self.videoWidget.mediaPlayer.stop()
         self.videoWidget.mediaPlayer.setPosition(self.mediaPosition)
+
 
 
 
