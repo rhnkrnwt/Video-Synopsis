@@ -40,7 +40,7 @@ Once the frames are scored, those that occur within 10 seconds of each other are
 
 For our experiment's purpose we thresholded for scores and sorted the frames based on timestamp and ran a simple Kmeans (#selected/4) and selected images for synopsis closest to the K-centers. This is done to avoid over selection and maintain a logical gap between two frames that summarize the video chunk. 
 
-For images, for every 20 images we consider 1 center and run a PCA and Kmeans clustering and pick the images closest to the center to form a part of the synopsis.
+For images, we run a PCA and Kmeans clustering and pick the images closest to the center to form a part of the synopsis. K is decided by the value that gives the best average distribution. 
 
 The final synopsis is a concatenated image of shrunk selected frames saved as `synopsis.png`. 
 
