@@ -47,4 +47,10 @@ The final synopsis is a concatenated image of shrunk selected frames saved as `s
 ## GUI
 ![Alt text](gui/gui_screenshot.png "GUI")
 
-The guided user interface is written in Python using the PyQt5 Library (a wrapper around the C++ Qt visualization library). The interface consists of various widgets stacked and overlayed on top of each other. Primarly our UI uses buttons, labels, and a video/image player to render our content. There are 3 buttons: pause, play and stop. At the bottom of the window as shown in the screenshot there is a synopsis image. Any click on the synopsis image will trigger either a video or an image to be displayed in the main content. For videos, any click on the synopsis image will set the content to that particular video and start playing the content from the correct position. The Pause button simply pauses the video. The Play button restarts the current content loaded into the media player from the last paused location. The Stop button resets the player to start from the beginning position as indicated by the synopsis frame.
+The guided user interface is written in Python using the PyQt5 Library (a wrapper around the C++ Qt visualization library). The interface consists of various widgets stacked and overlayed on top of each other. Primarly our UI uses buttons, labels, and a video/image player to render our content. There are 3 buttons: pause, play and stop. At the bottom of the window as shown in the screenshot there is a synopsis image. 
+
+### Actions
+** Click on Synopsis **
+** Play Button **
+** Pause Button **
+** Stop Button **
