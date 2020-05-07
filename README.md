@@ -44,6 +44,8 @@ For images, we run a PCA and Kmeans clustering and pick the images closest to th
 
 The final synopsis is a concatenated image of shrunk selected frames saved as `synopsis.png`. 
 
+In post processing, we ignore those images which match the already existing frames in the synopsis. 
+
 ## GUI
 ![Alt text](gui/gui_screenshot.png "GUI")
 
