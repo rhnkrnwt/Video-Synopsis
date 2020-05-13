@@ -56,3 +56,5 @@ The guided user interface is written in Python using the PyQt5 Library (a wrappe
 **Play Button -** Plays video currently loaded into player from last paused position. <br />
 **Pause Button -** Pauses the currently loaded video at current position. <br />
 **Stop Button -** Resets position of video currently loaded into player to beginning (as specified by synopsis/metadata). <br />
+
+***Create an issue for more information**
