@@ -4,7 +4,7 @@ jdcal==1.4.1
 kiwisolver==1.1.0
 matplotlib==3.0.3
 numpy==1.18.3
-opencv-python==4.2.0.34
+opencv-python==4.8.1.78
 openpyxl==2.6.4
 pandas==0.24.2
 pynput==1.6.8
